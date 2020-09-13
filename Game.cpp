@@ -106,3 +106,63 @@ void Game::checkCollisionPaddle(sf::RectangleShape paddle) {
 	       	increment.x = -increment.x;
     }	
 }
+
+void Game::ballCollisionWindow() {
+	if ((ball.getPosition().y + (ballHeight) > HEIGHT && increment.y > 0)
+		       	|| ( ball.getPosition().y < 0 && increment.y < 0 ) ) {
+            increment.y = -increment.y;
+    }
+	
+	//Check if someone scored (do this in a separate function)
+	if (ball.getPosition().x < 0) { increaseScore(computerScore); }
+	if ((ball.getPosition().x + ballWidth) > WIDTH) { increaseScore(playerScore); }
+}
+
+void Game::resetBall() {
+	ball.setPosition((window.getWindowSize().x / 2) - ballWidth, 
+			(window.getWindowSize().y / 2) - ballHeight);
+}
+
+void Game::resetGame() {
+	playerScore = 0;
+	computerScore = 0;
+
+	//reset player and computer position
+	
+}
+
+void Game::increaseScore(int &score) {
+	score++;
+	increment.x = -increment.x;
+	scoreText.setString(std::to_string(playerScore) + " - " + std::to_string(computerScore));
+	resetBall();	
+}
+ + (ballHeight) > HEIGHT && increment.y > 0)
+		       	|| ( ball.getPosition().y < 0 && increment.y < 0 ) ) {
+            increment.y = -increment.y;
+    }
+	
+	//Check if someone scored (do this in a separate function)
+	if (ball.getPosition().x < 0) { increaseScore(computerScore); }
+	if ((ball.getPosition().x + ballWidth) > WIDTH) { increaseScore(playerScore); }
+}
+
+void Game::resetBall() {
+	ball.setPosition((window.getWindowSize().x / 2) - ballWidth, 
+			(window.getWindowSize().y / 2) - ballHeight);
+}
+
+void Game::resetGame() {
+	playerScore = 0;
+	computerScore = 0;
+
+	//reset player and computer position
+	
+}
+
+void Game::increaseScore(int &score) {
+	score++;
+	increment.x = -increment.x;
+	scoreText.setString(std::to_string(playerScore) + " - " + std::to_string(computerScore));
+	resetBall();	
+}
