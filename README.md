@@ -6,4 +6,4 @@ Classic Pong game written in C++ using [SFML](https://www.sfml-dev.org/index.php
 
 I wrote this game to give me a simple introduction to SFML, and to get myself away from "single file" projects. https://www.sfml-dev.org/index.php
 
-![alt text](https://github.com/[brian054]/[Pong]/blob/[master]/demoShot.png?raw=true)
+![Screenshot](/demoShot.png)
