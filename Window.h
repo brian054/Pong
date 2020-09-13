@@ -1,3 +1,5 @@
+#ifndef WINDOW_H
+#define WINDOW_H
 #include <SFML/Graphics.hpp>
 
 class Window {
@@ -29,5 +31,8 @@ class Window {
 		bool w_isFullScreen;
 
 };
+
+#endif
+
 
 

@@ -4,7 +4,6 @@
  * Purpose: Implementation of Game.h
  *
  */
-
 #include "Game.h"
 #include <iostream>
 
@@ -14,7 +13,7 @@ const int HEIGHT = 800;
 const int WIDTH = 1200;
 
 Game::Game(): window("Pong", sf::Vector2u(WIDTH, HEIGHT)) {
-	increment = sf::Vector2f(10.f, 10.f);
+	increment = sf::Vector2f(10.f, 10.f); 
 
 	computer.setSize(sf::Vector2f(paddleWidth, paddleHeight));
 	computer.setPosition(1200 - 75, 900 / 2);

@@ -1,5 +1,5 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef GAME_H
+#define GAME_H
 #include "Window.h"
 
 // Game
