@@ -8,11 +8,11 @@ class Game {
 		Game();
 		~Game();
 
-		sf::Time GetElapsed();
-		void RestartClock();
-		void HandleInput();
-		void Update();
-		void Render();
+		sf::Time getElapsed();
+		void restartClock();
+		void handleInput();
+		void update();
+		void render();
 		Window *getWindow();
 	
 	private:

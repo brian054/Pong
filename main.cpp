@@ -15,9 +15,9 @@ int main() {
 	Game game;
 	while (!game.getWindow()->isDone()) {
 		//game.HandleInput();
-		game.Update();
-		game.Render();
-		game.RestartClock();
+		game.update();
+		game.render();
+		game.restartClock();
 	}
 	return 0;
 }

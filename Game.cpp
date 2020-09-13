@@ -41,13 +41,13 @@ Game::Game(): window("Pong", sf::Vector2u(WIDTH, HEIGHT)) {
 
 Game::~Game() {}
 
-void Game::Update() {
+void Game::update() {
 	window.update(); ///Update window events
 	
 	float timestep = 1.0f / 60;
 
 	if (elapsed.asSeconds() >= timestep) {
-		HandleInput();
+		handleInput();
 		moveBall();
 		moveComputer();
 		checkCollisionPaddle(player);
@@ -61,7 +61,7 @@ Window *Game::getWindow() {
 	return &window;
 }
 
-void Game::HandleInput() {
+void Game::handleInput() {
 	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && (player.getPosition().y >= 0)) {
 		player.move(0.f, -10.f);
 	}
@@ -70,7 +70,7 @@ void Game::HandleInput() {
 	}
 }
 
-void Game::Render() {
+void Game::render() {
 	window.beginDraw(); //Clear
 	window.draw(scoreText);
 	window.draw(ball);
@@ -79,11 +79,11 @@ void Game::Render() {
 	window.endDraw(); //Display
 }
 
-sf::Time Game::GetElapsed() {
+sf::Time Game::getElapsed() {
 	return elapsed;
 }
 
-void Game::RestartClock() {
+void Game::restartClock() {
 	elapsed += clock.restart();
 }
 
@@ -109,35 +109,6 @@ void Game::checkCollisionPaddle(sf::RectangleShape paddle) {
 
 void Game::ballCollisionWindow() {
 	if ((ball.getPosition().y + (ballHeight) > HEIGHT && increment.y > 0)
-		       	|| ( ball.getPosition().y < 0 && increment.y < 0 ) ) {
-            increment.y = -increment.y;
-    }
-	
-	//Check if someone scored (do this in a separate function)
-	if (ball.getPosition().x < 0) { increaseScore(computerScore); }
-	if ((ball.getPosition().x + ballWidth) > WIDTH) { increaseScore(playerScore); }
-}
-
-void Game::resetBall() {
-	ball.setPosition((window.getWindowSize().x / 2) - ballWidth, 
-			(window.getWindowSize().y / 2) - ballHeight);
-}
-
-void Game::resetGame() {
-	playerScore = 0;
-	computerScore = 0;
-
-	//reset player and computer position
-	
-}
-
-void Game::increaseScore(int &score) {
-	score++;
-	increment.x = -increment.x;
-	scoreText.setString(std::to_string(playerScore) + " - " + std::to_string(computerScore));
-	resetBall();	
-}
- + (ballHeight) > HEIGHT && increment.y > 0)
 		       	|| ( ball.getPosition().y < 0 && increment.y < 0 ) ) {
             increment.y = -increment.y;
     }
