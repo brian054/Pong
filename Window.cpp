@@ -17,48 +17,48 @@ Window::Window(const std::string &title, const sf::Vector2u &size) {
 Window::~Window() { destroy(); }
 
 void Window::setup(const std::string &title, const sf::Vector2u &size) {
-	windowTitle = title;
-	windowSize = size;
-	w_isFullScreen = false;
-	w_isDone = false;
+	m_windowTitle = title;
+	m_windowSize = size;
+	m_isFullScreen = false;
+	m_isDone = false;
 	create();
 }
 
 void Window::create() {
-	window.create({ windowSize.x, windowSize.y, 32}, windowTitle, sf::Style::Default);
+	m_window.create({ m_windowSize.x, m_windowSize.y, 32}, m_windowTitle, sf::Style::Default);
 }
 
 void Window::destroy() {
-	window.close();
+	m_window.close();
 }
 
 void Window::update() {
 	sf::Event event;
-	while (window.pollEvent(event)) {
+	while (m_window.pollEvent(event)) {
 		if (event.type == sf::Event::Closed) {
-			w_isDone = true;
+			m_isDone = true;
 		} 
 	}
 }
 
 void Window::beginDraw() {
-	window.clear(sf::Color::Black);
+	m_window.clear(sf::Color::Black);
 }
 
 void Window::endDraw() {
-	window.display();
+	m_window.display();
 }
 
 bool Window::isDone() {
-	return w_isDone;
+	return m_isDone;
 }
 
 sf::Vector2u Window::getWindowSize() {
-	return windowSize;
+	return m_windowSize;
 }
 
 void Window::draw(sf::Drawable &drawable) {
-	window.draw(drawable);
+	m_window.draw(drawable);
 }
 
 

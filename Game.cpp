@@ -12,119 +12,119 @@ using namespace std;
 const int HEIGHT = 800;
 const int WIDTH = 1200;
 
-Game::Game(): window("Pong", sf::Vector2u(WIDTH, HEIGHT)) {
-	increment = sf::Vector2f(10.f, 10.f); 
+Game::Game(): m_window("Pong", sf::Vector2u(WIDTH, HEIGHT)) {
+	m_increment = sf::Vector2f(10.f, 10.f); 
 
-	computer.setSize(sf::Vector2f(paddleWidth, paddleHeight));
-	computer.setPosition(1200 - 75, 900 / 2);
+	m_computer.setSize(sf::Vector2f(m_paddleWidth, m_paddleHeight));
+	m_computer.setPosition(1200 - 75, 900 / 2);
 
-	player.setSize(sf::Vector2f(paddleWidth, paddleHeight));
-	player.setPosition(50,50);
+	m_player.setSize(sf::Vector2f(m_paddleWidth, m_paddleHeight));
+	m_player.setPosition(50,50);
 	
-	ball.setSize(sf::Vector2f(ballWidth, ballHeight));
+	m_ball.setSize(sf::Vector2f(m_ballWidth, m_ballHeight));
 	resetBall();
-	ball.setFillColor(sf::Color::Blue);
+	m_ball.setFillColor(sf::Color::Blue);
 
 	resetGame();
 
-	if (!font.loadFromFile("arial.ttf")) {
+	if (!m_font.loadFromFile("arial.ttf")) {
 		//Error
 	}
 
-	scoreText.setFont(font);
-	scoreText.setString(std::to_string(playerScore) + " - " + std::to_string(computerScore));
-	scoreText.setCharacterSize(70);
-	scoreText.setFillColor(sf::Color::White);
-	scoreText.setPosition(530.f , 0.f);
+	m_scoreText.setFont(m_font);
+	m_scoreText.setString(std::to_string(m_playerScore) + " - " + std::to_string(m_computerScore));
+	m_scoreText.setCharacterSize(70);
+	m_scoreText.setFillColor(sf::Color::White);
+	m_scoreText.setPosition(530.f , 0.f);
 }
 
 Game::~Game() {}
 
 void Game::update() {
-	window.update(); ///Update window events
+	m_window.update(); ///Update window events
 	
 	float timestep = 1.0f / 60;
 
-	if (elapsed.asSeconds() >= timestep) {
+	if (m_elapsed.asSeconds() >= timestep) {
 		handleInput();
 		moveBall();
 		moveComputer();
-		checkCollisionPaddle(player);
-		checkCollisionPaddle(computer);
+		checkCollisionPaddle(m_player);
+		checkCollisionPaddle(m_computer);
 		ballCollisionWindow();
-		elapsed -= sf::seconds(timestep);
+		m_elapsed -= sf::seconds(timestep);
 	}
 }
 
 Window *Game::getWindow() {
-	return &window;
+	return &m_window;
 }
 
 void Game::handleInput() {
-	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && (player.getPosition().y >= 0)) {
-		player.move(0.f, -10.f);
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && (m_player.getPosition().y >= 0)) {
+		m_player.move(0.f, -10.f);
 	}
-	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) && (player.getPosition().y + paddleHeight <= HEIGHT)) {
-		player.move(0.f, 10.f);
+	if ((sf::Keyboard::isKeyPressed(sf::Keyboard::S)) && (m_player.getPosition().y + m_paddleHeight <= HEIGHT)) {
+		m_player.move(0.f, 10.f);
 	}
 }
 
 void Game::render() {
-	window.beginDraw(); //Clear
-	window.draw(scoreText);
-	window.draw(ball);
-	window.draw(computer);
-	window.draw(player);
-	window.endDraw(); //Display
+	m_window.beginDraw(); //Clear
+	m_window.draw(m_scoreText);
+	m_window.draw(m_ball);
+	m_window.draw(m_computer);
+	m_window.draw(m_player);
+	m_window.endDraw(); //Display
 }
 
 sf::Time Game::getElapsed() {
-	return elapsed;
+	return m_elapsed;
 }
 
 void Game::restartClock() {
-	elapsed += clock.restart();
+	m_elapsed += m_clock.restart();
 }
 
 void Game::moveComputer() {
-		if ((ball.getPosition().y < computer.getPosition().y + (paddleHeight / 2)) && (computer.getPosition().y >= 0) ) {
-            computer.move(0.f, -8.5f);
+		if ((m_ball.getPosition().y < m_computer.getPosition().y + (m_paddleHeight / 2)) && (m_computer.getPosition().y >= 0) ) {
+            m_computer.move(0.f, -8.5f);
         }
-        if ((ball.getPosition().y > computer.getPosition().y + (paddleHeight / 2)) && (computer.getPosition().y + paddleHeight <= HEIGHT)) {
-            computer.move(0.f, 8.5f);
+        if ((m_ball.getPosition().y > m_computer.getPosition().y + (m_paddleHeight / 2)) && (m_computer.getPosition().y + m_paddleHeight <= HEIGHT)) {
+            m_computer.move(0.f, 8.5f);
         }
 }
 
 void Game::moveBall() {
-	ball.move(increment);
+	m_ball.move(m_increment);
 }
 
 void Game::checkCollisionPaddle(sf::RectangleShape paddle) {
-	if ((ball.getPosition().x < paddle.getPosition().x + paddleWidth) && (ball.getPosition().x + ballWidth > paddle.getPosition().x)
-            && (ball.getPosition().y < paddle.getPosition().y + paddleHeight) && (ball.getPosition().y + ballHeight > paddle.getPosition().y)) {	
-	       	increment.x = -increment.x;
+	if ((m_ball.getPosition().x < paddle.getPosition().x + m_paddleWidth) && (m_ball.getPosition().x + m_ballWidth > paddle.getPosition().x)
+            && (m_ball.getPosition().y < paddle.getPosition().y + m_paddleHeight) && (m_ball.getPosition().y + m_ballHeight > paddle.getPosition().y)) {	
+	       	m_increment.x = -m_increment.x;
     }	
 }
 
 void Game::ballCollisionWindow() {
-	if ((ball.getPosition().y + (ballHeight) > HEIGHT && increment.y > 0)
-		       	|| ( ball.getPosition().y < 0 && increment.y < 0 ) ) {
-            increment.y = -increment.y;
+	if ((m_ball.getPosition().y + (m_ballHeight) > HEIGHT && m_increment.y > 0)
+		       	|| ( m_ball.getPosition().y < 0 && m_increment.y < 0 ) ) {
+            m_increment.y = -m_increment.y;
     }
 	
 	//Check if someone scored (do this in a separate function)
-	if (ball.getPosition().x < 0) { increaseScore(computerScore); }
-	if ((ball.getPosition().x + ballWidth) > WIDTH) { increaseScore(playerScore); }
+	if (m_ball.getPosition().x < 0) { increaseScore(m_computerScore); }
+	if ((m_ball.getPosition().x + m_ballWidth) > WIDTH) { increaseScore(m_playerScore); }
 }
 
 void Game::resetBall() {
-	ball.setPosition((window.getWindowSize().x / 2) - ballWidth, 
-			(window.getWindowSize().y / 2) - ballHeight);
+	m_ball.setPosition((m_window.getWindowSize().x / 2) - m_ballWidth, 
+			(m_window.getWindowSize().y / 2) - m_ballHeight);
 }
 
 void Game::resetGame() {
-	playerScore = 0;
-	computerScore = 0;
+	m_playerScore = 0;
+	m_computerScore = 0;
 
 	//reset player and computer position
 	
@@ -132,7 +132,7 @@ void Game::resetGame() {
 
 void Game::increaseScore(int &score) {
 	score++;
-	increment.x = -increment.x;
-	scoreText.setString(std::to_string(playerScore) + " - " + std::to_string(computerScore));
+	m_increment.x = -m_increment.x;
+	m_scoreText.setString(std::to_string(m_playerScore) + " - " + std::to_string(m_computerScore));
 	resetBall();	
 }
