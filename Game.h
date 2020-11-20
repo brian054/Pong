@@ -20,7 +20,7 @@ class Game {
 		void moveBall();
 		void checkCollisionPaddle(sf::RectangleShape paddle);
 		void ballCollisionWindow();
-		void resetBall();
+		void resetAfterScore();
 		void resetGame();
 		void increaseScore(int &score);
 
@@ -44,6 +44,9 @@ class Game {
 
 		sf::Font m_font;
 		sf::Text m_scoreText;
+
+		sf::SoundBuffer m_pingBuffer;
+		sf::Sound m_pingSound;
 };
 
 #endif

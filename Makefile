@@ -5,7 +5,7 @@ OUT = run
 
 CC = g++
 
-LDLIBS = -lsfml-graphics -lsfml-window -lsfml-system
+LDLIBS = -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
 
 $(OUT): $(OBJFILES)
 	$(CC) $^ -o $@ $(LDLIBS)
@@ -20,3 +20,4 @@ headers: $(HEADERS)
 .PHONY: clean
 clean:
 	rm -f $(OBJFILES) $(OUT)
+	rm *.gch

@@ -1,14 +1,13 @@
 /*
  * ToDo:
- *	- clean up code
+ * 	- Add State Manager (Menu, Pause, etc.)
+ *	- clean up and organize code
  *	- fix collision direction (Direction influencing ball movement)
  *	- Add Score System, Restart, etc. (Do first) 
- *	- Add Main Menu
  *	- Add Difficulties (Easy, Medium, Hard)
  *	- Add 2 player mode
  *
  */
-
 #include "Game.h"
 
 int main() {

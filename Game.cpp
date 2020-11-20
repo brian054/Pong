@@ -12,6 +12,7 @@ using namespace std;
 const int HEIGHT = 800;
 const int WIDTH = 1200;
 
+// Setup our Game
 Game::Game(): m_window("Pong", sf::Vector2u(WIDTH, HEIGHT)) {
 	m_increment = sf::Vector2f(10.f, 10.f); 
 
@@ -22,14 +23,22 @@ Game::Game(): m_window("Pong", sf::Vector2u(WIDTH, HEIGHT)) {
 	m_player.setPosition(50,50);
 	
 	m_ball.setSize(sf::Vector2f(m_ballWidth, m_ballHeight));
-	resetBall();
+	m_ball.setPosition((m_window.getWindowSize().x / 2) - m_ballWidth, 
+			(m_window.getWindowSize().y / 2) - m_ballHeight);
 	m_ball.setFillColor(sf::Color::Blue);
 
 	resetGame();
 
-	if (!m_font.loadFromFile("arial.ttf")) {
-		//Error
+	// Open font file
+	if (!m_font.loadFromFile("res/arial.ttf")) {
+		// Error
 	}
+
+	// Open sound file
+	if (!m_pingBuffer.loadFromFile("res/pingSound.wav")) {
+		// Error
+	}
+	m_pingSound.setBuffer(m_pingBuffer);
 
 	m_scoreText.setFont(m_font);
 	m_scoreText.setString(std::to_string(m_playerScore) + " - " + std::to_string(m_computerScore));
@@ -87,12 +96,12 @@ void Game::restartClock() {
 }
 
 void Game::moveComputer() {
-		if ((m_ball.getPosition().y < m_computer.getPosition().y + (m_paddleHeight / 2)) && (m_computer.getPosition().y >= 0) ) {
-            m_computer.move(0.f, -8.5f);
-        }
-        if ((m_ball.getPosition().y > m_computer.getPosition().y + (m_paddleHeight / 2)) && (m_computer.getPosition().y + m_paddleHeight <= HEIGHT)) {
-            m_computer.move(0.f, 8.5f);
-        }
+	if ((m_ball.getPosition().y < m_computer.getPosition().y + (m_paddleHeight / 2)) && (m_computer.getPosition().y >= 0) ) {
+		m_computer.move(0.f, -8.5f);
+	}
+	if ((m_ball.getPosition().y > m_computer.getPosition().y + (m_paddleHeight / 2)) && (m_computer.getPosition().y + m_paddleHeight <= HEIGHT)) {
+		m_computer.move(0.f, 8.5f);
+	}
 }
 
 void Game::moveBall() {
@@ -102,14 +111,15 @@ void Game::moveBall() {
 void Game::checkCollisionPaddle(sf::RectangleShape paddle) {
 	if ((m_ball.getPosition().x < paddle.getPosition().x + m_paddleWidth) && (m_ball.getPosition().x + m_ballWidth > paddle.getPosition().x)
             && (m_ball.getPosition().y < paddle.getPosition().y + m_paddleHeight) && (m_ball.getPosition().y + m_ballHeight > paddle.getPosition().y)) {	
-	       	m_increment.x = -m_increment.x;
+		m_increment.x = -m_increment.x;
+		m_pingSound.play();
     }	
 }
 
 void Game::ballCollisionWindow() {
 	if ((m_ball.getPosition().y + (m_ballHeight) > HEIGHT && m_increment.y > 0)
 		       	|| ( m_ball.getPosition().y < 0 && m_increment.y < 0 ) ) {
-            m_increment.y = -m_increment.y;
+		m_increment.y = -m_increment.y;
     }
 	
 	//Check if someone scored (do this in a separate function)
@@ -117,7 +127,8 @@ void Game::ballCollisionWindow() {
 	if ((m_ball.getPosition().x + m_ballWidth) > WIDTH) { increaseScore(m_playerScore); }
 }
 
-void Game::resetBall() {
+void Game::resetAfterScore() {
+	// Reset Ball
 	m_ball.setPosition((m_window.getWindowSize().x / 2) - m_ballWidth, 
 			(m_window.getWindowSize().y / 2) - m_ballHeight);
 }
@@ -127,12 +138,11 @@ void Game::resetGame() {
 	m_computerScore = 0;
 
 	//reset player and computer position
-	
 }
 
 void Game::increaseScore(int &score) {
 	score++;
 	m_increment.x = -m_increment.x;
 	m_scoreText.setString(std::to_string(m_playerScore) + " - " + std::to_string(m_computerScore));
-	resetBall();	
+	resetAfterScore();	
 }
